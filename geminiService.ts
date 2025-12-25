@@ -1,11 +1,11 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
 import { AnalysisData } from "./types";
 
 const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY || "" });
 
 export const analyzeScribble = async (base64Image: string): Promise<AnalysisData> => {
-  const model = "gemini-3-flash-preview";
+  // استفاده از مدل پایدارتر برای موبایل
+  const model = "gemini-1.5-flash";
   
   const prompt = `
     Analyze this scribble/doodle image from a psychological perspective. 
@@ -24,6 +24,9 @@ export const analyzeScribble = async (base64Image: string): Promise<AnalysisData
     Return the response in JSON format.
   `;
 
+  // پاکسازی دیتای عکس برای جلوگیری از خطای حافظه در موبایل
+  const imageData = base64Image.includes(",") ? base64Image.split(",")[1] : base64Image;
+
   const response = await ai.models.generateContent({
     model: model,
     contents: [
@@ -33,7 +36,7 @@ export const analyzeScribble = async (base64Image: string): Promise<AnalysisData
           {
             inlineData: {
               mimeType: "image/jpeg",
-              data: base64Image.split(",")[1],
+              data: imageData,
             },
           },
         ],
