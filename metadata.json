@@ -1,0 +1,7 @@
+{
+  "name": "Trace Mind - Doodle Analysis",
+  "description": "An AI-powered psychological analysis tool that interprets scribbles and doodles to reveal personality traits and emotional states.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
